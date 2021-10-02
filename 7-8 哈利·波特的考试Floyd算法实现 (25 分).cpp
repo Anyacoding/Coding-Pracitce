@@ -22,7 +22,7 @@ int main()
 		Graph[y][x] = w;
 	}
 
-	//Floyd�㷨
+	//FloydËã·¨
 	for (k = 1; k <= N; k++)
 		for (i = 1; i <= N; i++)
 			for (j = 1; j <= N; j++) {
