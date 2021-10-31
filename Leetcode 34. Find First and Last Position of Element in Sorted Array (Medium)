@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        //初始化ans数组
+        vector<int> ans(2, -1);
+        bool flag1 = true, flag2 = true;
+        int l = 0, r = nums.size() - 1;
+        while (l <= r && (flag1 || flag2)) {
+            if (nums[l] == target) {
+                ans[0] = l;
+                flag1 = false;
+            }
+            else if (nums[l] != target) {
+                ++l;
+            }
+            if (nums[r] == target) {
+                ans[1] = r;
+                flag2 = false;
+            }
+            else if (nums[r] != target) {
+                --r;
+            }
+        }
+        return ans;
+    }
+};
