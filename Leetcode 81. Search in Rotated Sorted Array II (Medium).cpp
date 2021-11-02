@@ -36,6 +36,7 @@ public:
                 return true;
             }
             //左右区间至少有一个区间递增，遇到特殊情况判断不了，就首尾都改变一下位置
+            //例如 nums=[3,1,2,3,3,3,3](已旋转过) 就判断不了是左区间递增还是右区间递增
             if (nums[mid] == nums[start] && nums[mid] == nums[end]) {
                 ++start;
                 --end;
