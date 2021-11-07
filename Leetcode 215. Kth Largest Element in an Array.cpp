@@ -4,11 +4,11 @@ public:
         int l = i;
         int r = j;
         while (l < r) {
-            //当碰到nums[r]的值小于基准值nums[i]停下
+            //当碰到nums[r]的值大于基准值nums[i]停下
             while (l < r && nums[r] <= nums[i]) {
                 --r;
             }
-            //当碰到nums[l]的值大于基准值nums[i]停下
+            //当碰到nums[l]的值小于基准值nums[i]停下
             while (l < r && nums[l] >= nums[i]) {
                 ++l;
             }
