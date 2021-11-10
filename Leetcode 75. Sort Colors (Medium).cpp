@@ -24,7 +24,7 @@ public:
         nums[l] = nums[i];
         nums[i] = temp;
         //对左边进行快排
-        //注意，这里l不能替换为0,同理r不能替换为nums.size() - 1，这样不符合递归并导致Stack-verflow，仔细想一想就能知道为什么
+        //注意，这里l不能替换为0,同理r不能替换为nums.size() - 1，这样不符合递归并导致Stack-overflow，仔细想一想就能知道为什么
         quickSort(nums, l, i - 1);
         //对右边进行快排
         quickSort(nums, i + 1, r);
