@@ -1,3 +1,4 @@
+法一：笨比法
 class Solution {
 public:
     void dfs(vector<int>& path, vector<int> used, vector<vector<int>>& ans, int k, int n) {
@@ -34,6 +35,38 @@ public:
             //即已选择过的数不能再次使用
             path.pop_back();
         }
+        return ans;
+    }
+};
+
+法二：天才法，大大降低性能损耗
+class Solution {
+public:
+    void dfs(vector<vector<int>>& ans, vector<int>& combo, int& n, int& k, int& count, int pos) {
+        //组合数已经完成，可以入库
+        if (count == k) {
+            ans.push_back(combo);
+            return;
+        }
+        //这个循坏的设计真是让人拍案叫绝
+        //使用完一个数之后巧妙地保证了在新的状态分支下不会被再次使用
+        //且在同一层的状态树中，保证了之前用过的数不会被同一层的之后的数使用
+        //完美取代了used数组的作用，开销大大降低
+        //总的来说，就是用一个变量pos动态地规划了可用的数字范围
+        for (int i = pos; i <= n; ++i) {
+            combo[count] = i;
+            ++count;
+            dfs(ans, combo, n, k, count, i + 1);
+            --count;
+        }
+
+    }
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> ans;
+        if (k == 0) return ans;
+        int count = 0;
+        vector<int> combo(k, 0);
+        dfs(ans, combo, n, k, count, 1);
         return ans;
     }
 };
