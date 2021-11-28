@@ -56,3 +56,45 @@ public:
         return ans;
     }
 };
+
+法二：BFS的拓扑排序，非常巧妙
+class Solution {
+public:
+    vector<int> findMinHeightTrees(int n, vector<vector<int>>& edges) {
+        vector<int> ans;
+        if (n == 1) return {0};
+        if (n == 2) return {0, 1};
+        map<int, vector<int>> Graph; //构建邻接表
+        vector<int> degree(n); //出度表
+        for (int i = 0; i < edges.size(); ++i) {
+            int u = edges[i][0];
+            int v = edges[i][1];
+            ++degree[u];
+            ++degree[v];
+            Graph[u].push_back(v);
+            Graph[v].push_back(u);
+        }
+        queue<int> q;
+        for (int i = 0; i < n; ++i) { //将所有出度为1的节点都压入队列，也就是叶子节点全部压入队列，从外向里修建
+            if (degree[i] == 1) {
+                q.push(i);
+            }
+        }
+        while (!q.empty()) {
+            ans.clear(); //在还没有得到结果前，这里面存的都是摘下来的叶子节点
+            int size = q.size();
+            for (int i = 0; i < size; ++i) {
+                int temp = q.front(); //拿出一个叶子节点
+                q.pop(); //出队
+                ans.push_back(temp);
+                --degree[temp]; //叶子节点被拿出来，就相当于被从树上摘下来了，此时出度为0
+                for (auto it : Graph[temp]) { //把与temp原本邻接的节点，且出度为1的节点压入ans中
+                    --degree[it]; //因为temp被摘掉了，所以it的出度-1
+                    if (degree[it] == 1)
+                    q.push(it);
+                }
+            }
+        }
+        return ans;
+    }
+};
