@@ -20,7 +20,8 @@ bool cmp(node a, node b)
 }
 
 int FindFather(int x)
-{
+{       
+	//虽然这样也能达到找到祖先的目的，但是没有压缩路径导致效率降低了
 	while (father[x] != x) {
 		x = father[x];
 	}
@@ -35,19 +36,20 @@ void Kuskal( )
 	while (1) {
 		int min = infer, mini = 0, minj = 0;
 		for (; i <= M; i++) {
-			if (e[i].w != 0) {
+			if (e[i].w != 0) { 
+			//这里其实就是一个简陋的并查集，唯一的不足是找祖先的时候没有进行路径压缩
 			int father1 = FindFather(e[i].x);
 			int father2 = FindFather(e[i].y);
 				if (e[i].w < min && father1 != father2) {
 					min = e[i].w;
-					father[father1] = father2;	
+					father[father1] = father2; 
 					e[i].w = 0;
 					break;
 				}
 				
 			}
 		}
-		//���������ˣ����ֻ���жϽ��ף�Զ���жϲ��ˣ����ǵò��鼯
+		//发现问题了，这个只能判断近亲，远亲判断不了，还是得并查集
 		if (min == infer)
 			break;
 		
@@ -71,7 +73,7 @@ int main()
 		for (i = 1; i <= M; i++) {
 			cin >> e[i].x >> e[i].y >> e[i].w;	
 		}
-		//��ʼ�����鼯
+		//初始化并查集
 		for (i = 1; i <= N; i++) {
 			father[i] = i;
 		}
