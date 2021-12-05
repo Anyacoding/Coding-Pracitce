@@ -42,3 +42,46 @@ public:
         return dp;
     }
 };
+
+法二：BFS,不会超时，随便也复习一下bfs的写法
+class Solution {
+public:
+    vector<int> directions = {1, 0, -1, 0, 1}; //辅助方向数组，向四个方向探索
+    vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
+        if (mat.empty()) return {};
+        queue<pair<int, int>> points;
+        int m = mat.size();
+        int n = mat[0].size();
+        //将值为0的点全部收入队列中
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (mat[i][j] == 0) {
+                    points.push({i, j});
+                } 
+                else if (mat[i][j] == 1) {
+                    mat[i][j] = -1;
+                }
+            }
+        }
+        while (!points.empty()) {
+            int size = points.size();
+            for (int i = 0; i < size; ++i) {
+                auto [x, y] = points.front();
+                points.pop();
+                for (int j = 0; j < 4; ++j) {
+                    int new_x = x + directions[j];
+                    int new_y = y + directions[j + 1];
+                    //越界条件判断
+                    if (new_x >= 0 && new_x < m && new_y >= 0 && new_y < n) {
+                        //未探索过的位置为1的点
+                        if (mat[new_x][new_y] == -1) {
+                            mat[new_x][new_y] = mat[x][y] + 1; //直接在mat上更新到最近的0的距离
+                            points.push({new_x, new_y}); //并将该点入队，作为下一层的节点
+                        }
+                    }
+                }
+            }
+        }
+        return mat;
+    }
+};
